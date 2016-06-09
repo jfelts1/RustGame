@@ -1,0 +1,11 @@
+[package]
+name = "rust_game"
+version = "0.1.0"
+authors = ["James Felts <jfelts1@users.noreply.github.com>"]
+
+
+[[bin]]
+name  = "rust_game"
+
+[dependencies]
+glium = "*"

@@ -1,0 +1,61 @@
+<component name="libraryTable">
+  <library name="Cargo &lt;RustGame&gt;">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/cocoa-0.3.3" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/winapi-build-0.1.1" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/bitflags-0.7.0" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/shared_library-0.1.4" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/xml-rs-0.3.4" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/bitflags-0.3.3" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/backtrace-0.1.8" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/lazy_static-0.1.16" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/objc-0.2.1" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/wayland-scanner-0.5.11" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/user32-sys-0.1.2" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/gl_generator-0.5.1" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/lazy_static-0.2.1" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/byteorder-0.5.3" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/fs2-0.2.4" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/osmesa-sys-0.1.0" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/gleam-0.2.19" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/semver-0.1.20" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/rustc_version-0.1.7" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/dlib-0.3.0" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/core-foundation-0.2.2" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/glium-0.14.0" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/cfg-if-0.1.0" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/dbghelp-sys-0.2.0" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/smallvec-0.1.7" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/tempfile-2.1.3" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/wayland-client-0.5.12" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/gdi32-sys-0.1.1" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/memmap-0.2.3" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/cgl-0.1.5" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/rand-0.3.14" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/crossbeam-0.2.9" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/serde-0.7.8" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/backtrace-sys-0.1.4" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/wayland-window-0.2.3" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/log-0.3.6" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/libc-0.2.11" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/khronos_api-1.0.0" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/android_glue-0.1.3" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/malloc_buf-0.0.6" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/shell32-sys-0.1.1" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/glutin-0.5.2" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/libloading-0.2.2" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/core-graphics-0.3.2" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/x11-dl-2.6.0" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/wayland-sys-0.5.11" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/gcc-0.3.28" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/wayland-kbd-0.3.6" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/core-foundation-sys-0.2.2" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/winapi-0.2.7" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/kernel32-sys-0.2.2" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/debug-builders-0.1.0" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-88ac128001ac3a9a/dwmapi-sys-0.1.0" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
