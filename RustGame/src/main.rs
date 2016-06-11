@@ -13,19 +13,19 @@ fn main() {
         Some(win) => window_size = win.get_inner_size_pixels(),
         None => return,
     }
-    let shape_x:u32;
-    let shape_y:u32;
+    let shape_x:f32;
+    let shape_y:f32;
     match window_size{
         Some((x,y))=>{
-            shape_x = x;
-            shape_y = y;
+            shape_x = (x as f32)/2.0;
+            shape_y = (y as f32)/2.0;
         },
         None => return,
     }
     let shape = Shape{
-        vertices: vec![Vertex::new([-0.5,-0.5]),Vertex::new([0.0,0.5]),Vertex::new([0.5,-0.25])],
-        pos_x:shape_x as f32,
-        pos_y:shape_y as f32,
+        vertices: vec![Vertex::new([-0.5,-0.5]),Vertex::new([0.0,0.5]),Vertex::new([0.5,-0.5])],
+        pos_x:shape_x,
+        pos_y:shape_y,
     };
     let vertex_buffer = glium::VertexBuffer::new(&display,&shape.vertices).unwrap();
     let indices = glium::index::NoIndices(glium::index::PrimitiveType::TrianglesList);
@@ -56,20 +56,27 @@ fn main() {
 
 
     loop{
-        t = (shape.pos_y-(mouse_y as f32)).atan2((shape.pos_x-(mouse_x as f32)));
+        let tmp_y:f32 = shape.pos_y-(mouse_y as f32);
+        let tmp_x:f32 = shape.pos_x-(mouse_x as f32);
+        t = tmp_y.atan2(tmp_x);
         t = t-f32::consts::PI/ 2.0;
-
+        /*t += 0.0002;
+        if t > 2.0*3.14{
+            t = 0.0;
+        }*/
         let mut target = display.draw();
         target.clear_color(0.0,0.0,1.0,1.0);
 
         let uniforms = uniform!{
         matrix:[
-        [t.cos(), t.sin(), 0.0, 0.0],
-        [-t.sin(), t.cos(), 0.0, 0.0],
+        [t.cos(), -t.sin(), 0.0, 0.0],
+        [t.sin(), t.cos(), 0.0, 0.0],
         [0.0, 0.0, 1.0, 0.0],
         [0.0 , 0.0, 0.0, 1.0f32],
         ]
         };
+
+        println!("shape pos ({},{}) mouse pos ({},{}) t = {}",shape.pos_x,shape.pos_y,mouse_x,mouse_y,t);
 
         target.draw(&vertex_buffer,&indices,&program,&uniforms,&Default::default()).unwrap();
         target.finish().unwrap();
