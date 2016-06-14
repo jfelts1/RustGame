@@ -3,11 +3,14 @@ extern crate glium;
 use std::cell::Cell;
 mod Shape;
 mod keyboard;
+mod point2d;
 use std::f32;
+use point2d::*;
 
 //these are temporary until I have file based config coded
 const WINDOW_WIDTH:u32 = 1280;
 const WINDOW_HEIGHT:u32 = 720;
+const ACCELL:f32 = 10.0;
 
 fn main() {
     use Shape::*;
@@ -35,17 +38,17 @@ fn main() {
     }
 
     //get the window size in an easily accessible form
-    let win_size:Point2DImmutable<f32>;
+    let win_size:Point2D<f32>;
     match window_size{
         Some((x,y))=>{
-            win_size = Point2DImmutable::new(x as f32,y as f32);
+            win_size = Point2D::new(x as f32,y as f32);
         },
         None => return,
     }
 
     let shape = Shape{
-        vertices: vec![Vertex::new([-0.25,-0.25]),Vertex::new([0.0,0.25]),Vertex::new([0.25,-0.25])],
-        pos:Point2D::new(win_size.x/2.0,win_size.y/2.0),
+        vertices: vec![Vertex::new([-0.025,-0.025]),Vertex::new([0.0,0.025]),Vertex::new([0.025,-0.025])],
+        pos:Cell::new(Point2D::new(0.0,0.0)),
         facing:Cell::new(0.0),
     };
     let vertex_buffer = glium::VertexBuffer::new(&display,&shape.vertices).unwrap();
@@ -54,10 +57,12 @@ fn main() {
     #version 140
 
     in vec2 position;
-    uniform mat4 matrix;
+    uniform mat4 rot_matrix;
+    uniform mat4 trans_matrix;
 
     void main() {
-        gl_Position = matrix*vec4(position, 0.0, 1.0);
+        mat4 tmp = trans_matrix*rot_matrix;
+        gl_Position = tmp*vec4(position, 0.0, 1.0);
     }
     "#;
 
@@ -73,44 +78,81 @@ fn main() {
 
     let program = glium::Program::from_source(&display,vertex_shader_src,fragment_shader_src,None).unwrap();
     let mut t: f32;
-    let (mut mouse_x,mut mouse_y) = (0,0);
-
+    let mut mouse_pos:Point2D<i32> = Point2D::new(0,0);
+    let mut tmp:Point2D<f32> = Point2D::new(0.0,0.0);
     loop{
-        let tmp_y:f32 = shape.pos.y.get()-(mouse_y as f32);
-        let tmp_x:f32 = shape.pos.x.get()-(mouse_x as f32);
-        t = tmp_y.atan2(tmp_x);
+        tmp.y = shape.pos.get().y+win_size.y/2.0-(mouse_pos.y as f32);
+        tmp.x = shape.pos.get().x+win_size.x/2.0-(mouse_pos.x as f32);
+        t = tmp.y.atan2(tmp.x);
         t = t-f32::consts::PI/ 2.0;
+        //flip the rotation direction to track the mouse correctly
+        t=-t;
 
         shape.facing.set(t);
 
         let mut target = display.draw();
         target.clear_color(0.0,0.0,1.0,1.0);
-        //
-        let shape_x = shape.pos.x.get()/win_size.x - 0.5;
-        let shape_y = shape.pos.y.get()/win_size.y - 0.5;
-        let uniforms = uniform!{
-        matrix:[
-        [t.cos(), -t.sin(), 0.0, 0.0],
-        [t.sin(), t.cos(), 0.0, 0.0],
+
+        let rot_matrix=[
+        [t.cos(), t.sin(), 0.0, 0.0],
+        [-t.sin(), t.cos(), 0.0, 0.0],
         [0.0, 0.0, 1.0, 0.0],
-        [shape_x, shape_y, 0.0, 1.0f32],
-        ]
-        };
+        [0.0, 0.0, 0.0, 1.0f32]
+        ];
 
-        //println!("shape pos ({},{}) mouse pos ({},{}) shape facing {}",shape.pos.x.get(),shape.pos.y.get(),mouse_x,mouse_y,shape.facing.get());
+        let shape_x = (shape.pos.get().x/win_size.x);
+        let shape_y = (shape.pos.get().y/win_size.y);
+        let trans_matrix = [
+        [1.0,0.0,0.0,0.0],
+        [0.0,1.0,0.0,0.0],
+        [0.0,0.0,1.0,0.0],
+        [shape_x,shape_y,0.0,1.0]];
 
-        target.draw(&vertex_buffer,&indices,&program,&uniforms,&Default::default()).unwrap();
+        println!("shape pos {:?} tmp {:?} shape_x {} shape_y {} mouse pos {:?} win_size {:?} shape facing {} ",shape.pos,tmp,shape_x,shape_y,mouse_pos,win_size,shape.facing.get());
+
+        target.draw(&vertex_buffer,&indices,&program,&uniform!{rot_matrix:rot_matrix,trans_matrix:trans_matrix},&Default::default()).unwrap();
         target.finish().unwrap();
         use glium::glutin::*;
+        use keyboard::UserInput::*;
         for ev in display.poll_events(){
             match ev{
                 Event::Closed => return,
                 Event::MouseMoved(x,y)=> {
-                    mouse_x=x;
-                    mouse_y=y;
+                    mouse_pos.x = x;
+                    mouse_pos.y = y;
                 },
                 Event::KeyboardInput(state,v,key_code)=>{
-                    keyboard::handle_keyboard(state,v,key_code);
+                    let input = keyboard::handle_keyboard(state,v,key_code);
+                    let mut pos = shape.pos.get();
+                    match input{
+                        MoveForward=>{
+                            let rot = shape.facing.get() + f32::consts::PI/2.0;
+                            let (y,x) = rot.sin_cos();
+                            pos.y = pos.y-ACCELL*y;
+                            pos.x = pos.x-ACCELL*x;
+                            shape.pos.set(pos);
+                        },
+                        MoveBackward=>{
+                            let rot = shape.facing.get()+f32::consts::PI/2.0;
+                            let (y,x) = rot.sin_cos();
+                            pos.y = pos.y+ACCELL*y;
+                            pos.x = pos.x+ACCELL*x;
+                            shape.pos.set(pos);
+                        },
+                        MoveLeft=>{
+                            let (y,x) = shape.facing.get().sin_cos();
+                            pos.y = pos.y-ACCELL*y;
+                            pos.x = pos.x-ACCELL*x;
+                            shape.pos.set(pos);
+                        },
+                        MoveRight=>{
+                            let (y,x) = shape.facing.get().sin_cos();
+                            pos.y = pos.y+ACCELL*y;
+                            pos.x = pos.x+ACCELL*x;
+                            shape.pos.set(pos);
+                        },
+                        _=>{}
+                    }
                 },
                 _=> ()
             }

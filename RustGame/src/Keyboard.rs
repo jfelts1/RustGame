@@ -18,26 +18,27 @@ pub fn handle_keyboard(state:glium::glutin::ElementState,v:u8,key_code:Option<gl
     use glium::glutin::*;
 
     match state{
-        ElementState::Pressed=>print!("Pressed "),
-        ElementState::Released=>print!("Released "),
+        _=>{}
+        //ElementState::Pressed=>print!("Pressed "),
+        //ElementState::Released=>print!("Released "),
     }
 
     match key_code{
         Some(kc)=>{
             if kc == KEY_FORWARD{
-                println!("forward");
+                //println!("forward");
                 return UserInput::MoveForward;
             }
             if kc == KEY_BACKWARD{
-                println!("backward");
+                //println!("backward");
                 return UserInput::MoveBackward;
             }
             if kc == KEY_LEFT{
-                println!("left");
+                //println!("left");
                 return UserInput::MoveLeft;
             }
             if kc == KEY_RIGHT{
-                println!("right");
+                //println!("right");
                 return UserInput::MoveRight;
             }
         },
