@@ -1,7 +1,3 @@
-use std::cell::Cell;
-use std::ops::*;
-use point2d::*;
-
 #[derive(Copy,Clone,Debug)]
 pub struct Vertex{
     position: [f32;2],
@@ -19,11 +15,8 @@ impl Vertex{
 
 ///A type that hold information about a shape
 #[derive(Debug)]
-pub struct Shape<T:Clone + Copy + Add + Sub + Mul + Div>{
+pub struct Shape{
     ///the vertices that make up the shape's shape
     pub vertices: Vec<Vertex>,
-    ///the shape's position on the screen in pixels
-    pub pos: Cell<Point2D<T>>,
-    ///the direction that the shape faces in radians
-    pub facing: Cell<f32>,
 }
+

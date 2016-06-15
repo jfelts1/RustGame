@@ -15,6 +15,23 @@ impl<T:Clone + Copy + Add + Sub + Mul + Div> Point2D<T>{
             y : y,
         }
     }
+
+}
+
+#[allow(dead_code)]
+impl Point2D<f32>{
+    ///gets the magnitude of the Point from (0,0)
+    pub fn magnitude(&self)->f32{
+        (self.x*self.x+self.y*self.y).sqrt()
+    }
+}
+
+#[allow(dead_code)]
+impl Point2D<f64>{
+    ///gets the magnitude of the Point from (0,0)
+    pub fn magnitude(&self)->f64{
+        (self.x*self.x+self.y*self.y).sqrt()
+    }
 }
 
 impl<T> Add for Point2D<T> where T:Clone + Copy + Add<Output = T> + Sub + Mul + Div {
