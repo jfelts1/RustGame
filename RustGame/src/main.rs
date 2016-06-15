@@ -79,11 +79,19 @@ fn main() {
     let program = glium::Program::from_source(&display,vertex_shader_src,fragment_shader_src,None).unwrap();
     let mut t: f32;
     let mut mouse_pos:Point2D<i32> = Point2D::new(0,0);
-    let mut tmp:Point2D<f32> = Point2D::new(0.0,0.0);
+    let mut mouse_shape_pos_diff:Point2D<f32> = Point2D::new(0.0,0.0);
+    //this is the shapes position based on the actual screen coordinates in pixels with (0,0) being in the top left of the viewport
+    let mut shape_pos:Point2D<f32> = Point2D::new(0.0,0.0);
     loop{
-        tmp.y = shape.pos.get().y+win_size.y/2.0-(mouse_pos.y as f32);
-        tmp.x = shape.pos.get().x+win_size.x/2.0-(mouse_pos.x as f32);
-        t = tmp.y.atan2(tmp.x);
+        mouse_shape_pos_diff.y = shape.pos.get().y+win_size.y/2.0;
+        shape_pos.y = mouse_shape_pos_diff.y;
+        mouse_shape_pos_diff.y = mouse_shape_pos_diff.y-(mouse_pos.y as f32);
+
+        mouse_shape_pos_diff.x = shape.pos.get().x+win_size.x/2.0;
+        shape_pos.x = mouse_shape_pos_diff.x;
+        mouse_shape_pos_diff.x = mouse_shape_pos_diff.x-(mouse_pos.x as f32);
+
+        t = mouse_shape_pos_diff.y.atan2(mouse_shape_pos_diff.x);
         t = t-f32::consts::PI/ 2.0;
         //flip the rotation direction to track the mouse correctly
         t=-t;
@@ -100,15 +108,17 @@ fn main() {
         [0.0, 0.0, 0.0, 1.0f32]
         ];
 
-        let shape_x = (shape.pos.get().x/win_size.x);
-        let shape_y = (shape.pos.get().y/win_size.y);
+        //multiply by two so that the position units match the screen size
+        let shape_x = shape.pos.get().x*2.0/win_size.x;
+        //the sign on the y coordinate is flipped so that the shapes position is in the same coordinate as the mouse position
+        let shape_y = -(shape.pos.get().y*2.0/win_size.y);
         let trans_matrix = [
         [1.0,0.0,0.0,0.0],
         [0.0,1.0,0.0,0.0],
         [0.0,0.0,1.0,0.0],
         [shape_x,shape_y,0.0,1.0]];
 
-        println!("shape pos {:?} tmp {:?} shape_x {} shape_y {} mouse pos {:?} win_size {:?} shape facing {} ",shape.pos,tmp,shape_x,shape_y,mouse_pos,win_size,shape.facing.get());
+        println!("shape pos {:?} tmp {:?} shape_x {} shape_y {} mouse pos {:?} win_size {:?} shape facing {} ",shape_pos,mouse_shape_pos_diff,shape_x,shape_y,mouse_pos,win_size,shape.facing.get());
 
         target.draw(&vertex_buffer,&indices,&program,&uniform!{rot_matrix:rot_matrix,trans_matrix:trans_matrix},&Default::default()).unwrap();
         target.finish().unwrap();
@@ -129,25 +139,25 @@ fn main() {
                             let rot = shape.facing.get() + f32::consts::PI/2.0;
                             let (y,x) = rot.sin_cos();
                             pos.y = pos.y-ACCELL*y;
-                            pos.x = pos.x-ACCELL*x;
+                            pos.x = pos.x+ACCELL*x;
                             shape.pos.set(pos);
                         },
                         MoveBackward=>{
                             let rot = shape.facing.get()+f32::consts::PI/2.0;
                             let (y,x) = rot.sin_cos();
                             pos.y = pos.y+ACCELL*y;
-                            pos.x = pos.x+ACCELL*x;
+                            pos.x = pos.x-ACCELL*x;
                             shape.pos.set(pos);
                         },
                         MoveLeft=>{
                             let (y,x) = shape.facing.get().sin_cos();
-                            pos.y = pos.y-ACCELL*y;
+                            pos.y = pos.y+ACCELL*y;
                             pos.x = pos.x-ACCELL*x;
                             shape.pos.set(pos);
                         },
                         MoveRight=>{
                             let (y,x) = shape.facing.get().sin_cos();
-                            pos.y = pos.y+ACCELL*y;
+                            pos.y = pos.y-ACCELL*y;
                             pos.x = pos.x+ACCELL*x;
                             shape.pos.set(pos);
                         },
