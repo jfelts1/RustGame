@@ -87,8 +87,14 @@ fn main() {
     let mut mouse_shape_pos_diff:Point2D<f32> = Point2D::new(0.0,0.0);
     //this is the shapes position based on the actual screen coordinates in pixels with (0,0) being in the top left of the viewport
     let mut shape_pos:Point2D<f32> = Point2D::new(0.0,0.0);
+
+    //main game loop
     loop{
-        game::user_input(&display,&mut mouse_pos,&ship);
+        if !game::user_input(&display,&mut mouse_pos,&ship)
+            {
+                //exit program
+                return;
+            }
 
         mouse_shape_pos_diff.y = ship.pos.get().y+win_size.y/2.0;
         shape_pos.y = mouse_shape_pos_diff.y;
