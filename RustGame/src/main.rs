@@ -90,11 +90,10 @@ fn main() {
 
     //main game loop
     loop{
-        if !game::user_input(&display,&mut mouse_pos,&ship)
-            {
-                //exit program
-                return;
-            }
+        if !game::handle_user_input(&display,&mut mouse_pos,&ship) {
+            //exit program
+            return;
+        }
 
         mouse_shape_pos_diff.y = ship.pos.get().y+win_size.y/2.0;
         shape_pos.y = mouse_shape_pos_diff.y;

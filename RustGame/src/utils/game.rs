@@ -9,7 +9,7 @@ use utils::physics;
 //these are temporary until I have file based config coded
 const ACCELL:f32 = 1.0;
 
-pub fn user_input(display:&GlutinFacade,mouse_pos:&mut Point2D<i32>,ship:&GameObject) -> bool{
+pub fn handle_user_input(display:&GlutinFacade,mouse_pos:&mut Point2D<i32>,ship:&GameObject) -> bool{
     use keyboard::UserInput::*;
     for ev in display.poll_events(){
         match ev{
